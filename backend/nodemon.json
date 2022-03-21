@@ -1,0 +1,8 @@
+{
+    "env": {
+        "port": 8080,
+        "mongo_url": "mongodb://localhost:27017/ghost",
+        "api_url": "http://localhost:8080/api",
+        "DB_ENV": "development",
+    }
+}
