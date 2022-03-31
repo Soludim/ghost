@@ -1,15 +1,11 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { Formik, Field, Form, ErrorMessage } from "formik";
-// import { ContextStore } from "../../../store/ContextStore";
-// import { AuthService } from "../../../services/AuthService";
-// import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
+import axios from "axios";
+import { Button } from "react-bootstrap";
 
 function Login(props) {
-	// const authService = new AuthService();
-	// const navigate = useNavigate();
 	const [error, setError] = useState("");
-	// const { authStore } = useContext(ContextStore);
 	const validationSchema = Yup.object({
 		email: Yup.string()
 			.email("input field must be an email")
@@ -29,10 +25,15 @@ function Login(props) {
 	const handleSubmit = async (values) => {
 		try {
 			console.log(values.password);
-			// const res = await authService.Login(values);
-			// authStore.setUser(res.data.user);
-			// authStore.setIsLoggedIn(true);
-			// localStorage.setItem("dumb", res.data.user._id);
+			const res = axios({
+				method: "post",
+				url: `localhost:8080/`,
+				headers: {
+					"Content-Type": "application/json",
+				},
+				data: values,
+			});
+			console.log(res);
 			// navigate("/admin/dashboard");
 		} catch (err) {
 			console.log(err);
@@ -77,8 +78,6 @@ function Login(props) {
 											type="password"
 											className="form-control"
 											placeholder="password"
-											autoComplete="true"
-											aria-label="location"
 											name="password"
 										/>
 										<p className="eg-text">
@@ -87,12 +86,13 @@ function Login(props) {
 										<ErrorMessage name="password" render={renderError} />
 									</div>
 									<div className="col-md-4 col-sm-12 mx-auto">
-										<button
+										<Button
 											type="submit"
-											className="btn form-control text-center mt-3"
+											className="form-control"
+											variant="success"
 										>
 											Submit
-										</button>
+										</Button>
 									</div>
 								</div>
 							</div>

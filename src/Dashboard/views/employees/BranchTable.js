@@ -2,63 +2,32 @@ import React, { useEffect, useState } from "react";
 import { FaCheckDouble } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { Button } from "react-bootstrap";
+import axios from "axios";
 
 export default function BranchTable(props) {
 	const navigate = useNavigate();
-	const [hostels, setHostels] = useState();
+	const [employees, setEmployees] = useState();
 
-	const employees = [
-		{
-			id: 3,
-			firstName: "Michael",
-			lastName: "Narh",
-			location: "Kumasi",
-			status: false,
-			salary: 23889.0,
-		},
-		{
-			id: 4,
-			firstName: "Sarah Badu",
-			lastName: "Nyamen",
-			location: "Kumasi",
-			status: true,
-			salary: 23889.0,
-		},
-		{
-			id: 2,
-			firstName: "Georgina",
-			lastName: "Anokyewaa",
-			location: "Kumasi",
-			status: false,
-			salary: 23889.0,
-		},
-		{
-			id: 6,
-			firstName: "Stephen",
-			lastName: "Saah",
-			location: "Kumasi",
-			status: true,
-			salary: 23889.0,
-		},
-		{
-			id: 7,
-			firstName: "Michael",
-			lastName: "Narh",
-			location: "Kumasi",
-			status: true,
-			salary: 23889.0,
-		},
-		{
-			id: 8,
-			firstName: "Michael",
-			lastName: "Narh",
-			location: "Kumasi",
-			status: false,
-			salary: 23889.0,
-		},
-	];
-
-	useEffect(() => {});
+	useEffect(() => {
+		const fetchEmployees = async () => {
+			try {
+				const res = await axios({
+					method: "get",
+					url: `http://localhost:8080/api/employee`,
+					headers: {
+						"Content-Type": "application/json",
+					},
+				});
+				console.log(res);
+				setEmployees(res.data);
+			} catch (err) {
+				console.log(err);
+			}
+		};
+		if (employees.length === 0) {
+			fetchEmployees();
+		}
+	});
 
 	return (
 		<>
@@ -77,8 +46,8 @@ export default function BranchTable(props) {
 					<tbody>
 						{employees &&
 							employees.map((item, i) => (
-								<tr key={item.id}>
-									<td>{item.id}</td>
+								<tr key={item._id}>
+									<td>{i + 1}</td>
 									<td>{item.firstName}</td>
 									<td>{item.lastName}</td>
 									<td>{item.location}</td>
