@@ -9,7 +9,7 @@ export default function MainRoutes(props) {
 	return (
 		<>
 			<Routes>
-				<Route path="/admin/login" element={<Login />} />
+				<Route path="/" element={<Login />} />
 				<Route path="/admin" element={<DashLayout />}>
 					<Route path="branch" element={<BranchTable />} />
 					<Route path="national" element={<NationalTable />} />

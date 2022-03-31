@@ -6,7 +6,7 @@ import axios from "axios";
 
 export default function BranchTable(props) {
 	const navigate = useNavigate();
-	const [employees, setEmployees] = useState();
+	const [employees, setEmployees] = useState([]);
 
 	useEffect(() => {
 		const fetchEmployees = async () => {
