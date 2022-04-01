@@ -10,7 +10,7 @@ require('./models/admin')
 require('./models/employee')
 
 const employeeRoutes = require('./routes/employee');
-
+const rsRoutes = require('./routes/request_salary');
 
 const app = express();
 
@@ -32,6 +32,7 @@ app.use(bodyparser.json());
 
 
 app.use('/api/employee', employeeRoutes);
+app.use('/api/request-salary', rsRoutes);
 
 app.listen(port || 4000, () => {
     console.log("Express server started at port: " + port);
