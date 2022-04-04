@@ -8,6 +8,7 @@ require('./models/location')
 require('./models/role')
 require('./models/admin')
 require('./models/employee')
+require('./models/nat_emp_table')
 
 const employeeRoutes = require('./routes/employee');
 const rsRoutes = require('./routes/request_salary');
