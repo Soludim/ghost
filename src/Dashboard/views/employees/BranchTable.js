@@ -13,7 +13,7 @@ export default function BranchTable(props) {
 			try {
 				const res = await axios({
 					method: "get",
-					url: `http://localhost:8080/api/employee`,
+					url: `http://localhost:8080/api/request-salary`,
 					headers: {
 						"Content-Type": "application/json",
 					},
