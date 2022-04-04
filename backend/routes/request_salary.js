@@ -1,10 +1,16 @@
-const express = require('express');
-const { requestSalary, getRequestedSalaries, getEmployeePaymentRequestStatus } = require('../controllers/requested_salary');
+const express = require("express");
+const {
+	requestSalary,
+	getRequestedSalaries,
+	getLocalEmployeePaymentRequestStatus,
+	getAllEmployeePaymentRequestStatus,
+} = require("../controllers/requested_salary");
 
 const router = express.Router();
 
-router.get('/', getEmployeePaymentRequestStatus)
-router.post('/', requestSalary)
-router.get('/list', getRequestedSalaries)
+router.post("/:location", getLocalEmployeePaymentRequestStatus);
+router.get("/list", getRequestedSalaries);
+router.get("/", getAllEmployeePaymentRequestStatus);
+router.post("/", requestSalary);
 
 module.exports = router;
