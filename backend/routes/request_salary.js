@@ -6,7 +6,7 @@ const { requestSalary,
 
 const router = express.Router();
 
-router.get('/:location_id', getLocalEmployeePaymentRequestStatus)
+router.post('/:location', getLocalEmployeePaymentRequestStatus)
 router.get('/list', getRequestedSalaries)
 router.get('/', getAllEmployeePaymentRequestStatus)
 router.post('/', requestSalary)

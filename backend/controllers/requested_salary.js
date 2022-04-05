@@ -13,7 +13,6 @@ exports.requestSalary = (req, res) => {
 
     rs.save().then(async savedRs => {
         let rejected = await rejectEmployeeSalaryRequest(savedRs);
-        console.log(rejected)
         if (rejected) {
             savedRs.status = -1
         }
@@ -47,6 +46,13 @@ async function rejectEmployeeSalaryRequest(rs) {
 }
 
 exports.getRequestedSalaries = (req, res) => {
+    if (req.body.month === undefined || req.body.month === null) {
+        return res.status(401).json({ message: "Month is required" })
+    }
+    if (req.body.year === undefined || req.body.year === null) {
+        return res.status(401).json({ message: "Year is required" })
+    }
+
     requestedSalary.find({ month: req.body.month, year: req.body.year })
         .then(rs => {
             if (rs) {
@@ -73,18 +79,20 @@ exports.getLocalEmployeePaymentRequestStatus = (req, res) => {
         .then(async employees => {
             if (employees) {
                 var rs = await requestedSalary.find({ month: req.body.month, year: req.body.year });
-                for (i = 0; i < employees.length; i++) {
-                    let rs1 = rs.some(o => o.employee === employees[i]._id);
-                    if (rs1) {
+                for (let i = 0; i < employees.length; i++) {
+                    let rsFound = rs.find(o => o.employee.toString() === employees[i]._id.toString());
+                    if (rsFound) {
                         array[i] = {
+                            emp_id: employees[i]._id,
                             firstName: employees[i].firstName,
                             lastName: employees[i].lastName,
                             location: employees[i].location.name,
                             salary: employees[i].salary,
-                            status: rs1.status  //not requested
+                            status: rsFound.status  //not requested
                         }
                     } else {
                         array[i] = {
+                            emp_id: employees[i]._id,
                             firstName: employees[i].firstName,
                             lastName: employees[i].lastName,
                             location: employees[i].location.name,
@@ -118,18 +126,20 @@ exports.getAllEmployeePaymentRequestStatus = (req, res) => {
         .then(async employees => {
             if (employees) {
                 var rs = await requestedSalary.find({ month: req.body.month, year: req.body.year });
-                for (i = 0; i < employees.length; i++) {
-                    let rs1 = rs.some(o => o.employee === employees[i]._id);
-                    if (rs1) {
+                for (let i = 0; i < employees.length; i++) {
+                    let rsFound = rs.find(o => o.employee.toString() === employees[i]._id.toString());
+                    if (rsFound) {
                         array[i] = {
+                            emp_id: employees[i]._id,
                             firstName: employees[i].firstName,
                             lastName: employees[i].lastName,
                             location: employees[i].location.name,
                             salary: employees[i].salary,
-                            status: rs1.status  //not requested
+                            status: rsFound.status  //not requested
                         }
                     } else {
                         array[i] = {
+                            emp_id: employees[i]._id,
                             firstName: employees[i].firstName,
                             lastName: employees[i].lastName,
                             location: employees[i].location.name,
