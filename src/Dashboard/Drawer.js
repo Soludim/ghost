@@ -29,7 +29,7 @@ export default function Drawer(props) {
 				<div className="drawer-columns">
 					<div className="dash-user">
 						<img
-							src="/imgs/adom_bi.jpg"
+							src="/imgs/profile.jpg"
 							className="img-fluid"
 							style={{ width: 50, height: 50, borderRadius: "50%" }}
 							alt="..."

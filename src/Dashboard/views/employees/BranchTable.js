@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { FaCheckDouble } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import { useAlert } from "react-alert";
 import { Button } from "react-bootstrap";
 import axios from "axios";
 import * as Yup from "yup";
 import { Formik, Form, Field } from "formik";
 
 export default function BranchTable(props) {
+	const alert = useAlert();
 	const navigate = useNavigate();
 	const [employees, setEmployees] = useState([]);
 	const [em_month, setEmMonth] = useState([]);
@@ -43,7 +45,6 @@ export default function BranchTable(props) {
 			month: em_month,
 			year: em_year,
 		};
-		console.log(data);
 		try {
 			const res = await axios({
 				method: "post",
@@ -53,16 +54,22 @@ export default function BranchTable(props) {
 				},
 				data: data,
 			});
-			// console.log(res);
-			console.log(res.data);
-			setEmployees(res.data);
+			const curr_emp = employees;
+			curr_emp.forEach((el) => {
+				if (el.emp_id === res.data?.request?.employee) {
+					el.status = res.data.request?.status;
+				}
+			});
+
+			alert.show("Request Sent");
+			setEmployees([...curr_emp]);
 		} catch (err) {
 			console.log(err);
 		}
 	};
 
 	const initialValues = {
-		month: 1,
+		month: 0,
 		year: 2022,
 	};
 
@@ -158,9 +165,18 @@ export default function BranchTable(props) {
 												Request Salary
 											</Button>
 										) : item.status === 0 ? (
-											<Button variant="success">pending</Button>
+											<Button
+												variant="warning"
+												onClick={() =>
+													alert.show("Your request is being processed", {
+														type: "info",
+													})
+												}
+											>
+												pending
+											</Button>
 										) : item.status === -1 ? (
-											<Button variant="success">Rejected</Button>
+											<Button variant="danger">Rejected</Button>
 										) : (
 											<FaCheckDouble size={25} />
 										)}
