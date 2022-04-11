@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import { Formik, Field, Form, ErrorMessage } from "formik";
+import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import axios from "axios";
 import { Button } from "react-bootstrap";
 
 function Login(props) {
 	const [error, setError] = useState("");
+	const navigate = useNavigate();
 	const validationSchema = Yup.object({
 		email: Yup.string()
 			.email("input field must be an email")
@@ -25,16 +27,17 @@ function Login(props) {
 	const handleSubmit = async (values) => {
 		try {
 			console.log(values.password);
-			const res = axios({
+			const res = await axios({
 				method: "post",
-				url: `localhost:8080/`,
+				url: `http://localhost:8080/api/auth/login`,
 				headers: {
 					"Content-Type": "application/json",
 				},
 				data: values,
 			});
+
 			console.log(res);
-			// navigate("/admin/dashboard");
+			// navigate("/admin/branch");
 		} catch (err) {
 			console.log(err);
 			setError(err.message);
