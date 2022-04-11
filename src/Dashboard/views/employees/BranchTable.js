@@ -5,7 +5,8 @@ import { useAlert } from "react-alert";
 import { Button } from "react-bootstrap";
 import axios from "axios";
 import * as Yup from "yup";
-import { Formik, Form, Field } from "formik";
+import { renderError } from "../../utils/Utils";
+import { Formik, Form, Field, ErrorMessage } from "formik";
 
 export default function BranchTable(props) {
 	const alert = useAlert();
@@ -30,7 +31,6 @@ export default function BranchTable(props) {
 				},
 				data: values,
 			});
-			// console.log(res);
 			console.log(res.data);
 			setEmployees(res.data);
 		} catch (err) {
@@ -68,9 +68,14 @@ export default function BranchTable(props) {
 		}
 	};
 
+	const validationSchema = Yup.object({
+		month: Yup.string().required("Month is required"),
+		year: Yup.string().required("Year is required"),
+	});
+
 	const initialValues = {
-		month: 0,
-		year: 2022,
+		month: em_month ?? 0,
+		year: em_year ?? 2022,
 	};
 
 	return (
@@ -79,7 +84,7 @@ export default function BranchTable(props) {
 				<Formik
 					enableReinitialize={true}
 					initialValues={initialValues}
-					// validationSchema={validationSchema}
+					validationSchema={validationSchema}
 					onSubmit={async (values, { resetForm }) => {
 						await handleSearch(values);
 						resetForm();
@@ -101,11 +106,8 @@ export default function BranchTable(props) {
 										</option>
 									))}
 								</Field>
-								<p className="eg-text">
-									{" "}
-									{/* <span className="required">*</span> Example: Ayeduase */}
-								</p>
-								{/* <ErrorMessage name="location" render={renderError} /> */}
+
+								<ErrorMessage name="month" render={renderError} />
 							</div>
 							<div className="col-md-5 coll-sm-12">
 								<Field
@@ -115,16 +117,14 @@ export default function BranchTable(props) {
 									name="year"
 								>
 									<option> Select Year</option>
+									<option value={2023}> 2023</option>
 									<option value={2022}> 2022</option>
 									<option value={2021}> 2021</option>
-									<option value={2020}> 2021</option>
+									<option value={2020}> 2020</option>
 									<option value={2019}> 2019</option>
 								</Field>
-								<p className="eg-text">
-									{" "}
-									{/* <span className="required">*</span> Example: Ayeduase */}
-								</p>
-								{/* <ErrorMessage name="location" render={renderError} /> */}
+
+								<ErrorMessage name="year" render={renderError} />
 							</div>
 							<div className="col-md-2 col-sm-12">
 								<Button type="submit " variant="success">
@@ -134,6 +134,17 @@ export default function BranchTable(props) {
 						</div>
 					</Form>
 				</Formik>
+
+				<div>
+					{employees.length > 0 ? (
+						<h3 className="text-center text-success">
+							Request month <span>{em_month}</span> and year{" "}
+							<span>{em_year}</span>{" "}
+						</h3>
+					) : (
+						""
+					)}
+				</div>
 
 				<table>
 					<thead>
