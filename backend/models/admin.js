@@ -4,7 +4,7 @@ const adminSchema = mongoose.Schema({
 	username: { type: String, required: true },
 	email: { type: String, required: true },
 	password: { type: String, required: true },
-	role: { type: mongoose.Schema.Types.ObjectId, ref: "role" },
+	role: { type: mongoose.Schema.Types.ObjectId, ref: "Role" },
 });
 
 let adminModel = mongoose.model("Admin", adminSchema);
