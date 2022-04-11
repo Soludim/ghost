@@ -3,11 +3,12 @@ const genToken = require('../services/generate_token');
 
 exports.adminLogin = (req, res) => {
     let fetchedAdmin;
-    if (req.body.email === null) {
+    if (!req.body.email) {
         return res.status(400).json({ message: "Email Is Required" })
     }
 
-    Admin.findOne({ email: req.body.email }).populate('role')
+    Admin.findOne({ email: req.body.email })
+        .populate({ path: 'role', populate: 'location' })
         .then(async admin => {
             if (!admin) {
                 return res.status(401).json({ message: 'Invalid authentication credentials!' });
@@ -21,6 +22,7 @@ exports.adminLogin = (req, res) => {
                 token
             })
         }).catch(error => {
+            console.log(error)
             res.status(500).json({ message: 'Authentication Failed' })
         })
 
