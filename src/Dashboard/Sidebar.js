@@ -16,71 +16,67 @@ const SideBarItems = [
 ];
 
 function Sidebar(props) {
-	// const authService = new AuthService();
 	const [user, setUser] = useState();
-	// const y = new Date();
-	// const url = `${process.env.REACT_APP_API_URL}/images/users`;
-	// const id = localStorage.getItem("dumb");
-	// const jwt = localStorage.getItem("jwt");
+
 	useEffect(() => {
-		// if (id && jwt) {
-		// 	const fetchUser = async () => {
-		// 		try {
-		// 			const res = await authService.getUser(id);
-		// 			setUser(res.data.user);
-		// 		} catch (err) {
-		// 			console.log(err);
-		// 		}
-		// 	};
-		// 	!user && fetchUser();
-		// } else {
-		// 	window.location.assign("/admin/login");
-		// }
-	});
+		const current_user = localStorage.getItem("user");
+		setUser(JSON.parse(current_user));
+	}, []);
+	console.log(user);
 	return (
 		<>
 			<div className="main-sidebar">
 				<div className="sidebar-columns">
 					<div className="dash-user">
-						{user && user.image ? (
-							<img
-								// src={`${url}/${user.image}`}
-								className="img-fluid"
-								style={{ width: 60, height: 60, borderRadius: "50%" }}
-								alt="..."
-							/>
+						{user ? (
+							<div className="user-circle">
+								<p>{user.username.split("")[0]}</p>
+							</div>
 						) : (
-							<img
-								// src={`${url}/profile_pic.jpg`}
-								className="img-fluid"
-								style={{ width: 90, height: 90, borderRadius: "50%" }}
-								alt="..."
-							/>
+							""
 						)}
 						<p className="profile_name">
 							{user && user.username}
-							<br /> {user && user.role}
+							<br /> {user && user.role?.name}
 						</p>
 						{/* <p>{user && user.role}</p> */}
 						<div className="divider" />
 					</div>
-					{SideBarItems.map((item) => {
-						return (
-							<div key={item.name}>
-								<NavLink
-									to={`${item.href}`}
-									className={(navData) =>
-										navData.isActive ? "active-sidebar" : ""
-									}
-								>
-									<div className="dash-nav">
-										<li className="icon">{item.icon}</li>
-										<li className="dash-name">{item.name}</li>
+					{user?.role?.role_number === 1
+						? SideBarItems.map((item) => {
+								return (
+									<div key={item.name}>
+										<NavLink
+											to={`${item.href}`}
+											className={(navData) =>
+												navData.isActive ? "active-sidebar" : ""
+											}
+										>
+											<div className="dash-nav">
+												<li className="icon">{item.icon}</li>
+												<li className="dash-name">{item.name}</li>
+											</div>
+										</NavLink>
 									</div>
-								</NavLink>
-							</div>
-						);
-					})}
+								);
+						  })
+						: SideBarItems[0]((item) => {
+								return (
+									<div key={item.name}>
+										<NavLink
+											to={`${item.href}`}
+											className={(navData) =>
+												navData.isActive ? "active-sidebar" : ""
+											}
+										>
+											<div className="dash-nav">
+												<li className="icon">{item.icon}</li>
+												<li className="dash-name">{item.name}</li>
+											</div>
+										</NavLink>
+									</div>
+								);
+						  })}
 				</div>
 				<div className="sidebar-bottom">
 					<MdSettings size={50} color={"var(--mainWhite)"} />

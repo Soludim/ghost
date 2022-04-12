@@ -8,9 +8,9 @@ const {
 
 const router = express.Router();
 
-router.post('/:location', getLocalEmployeePaymentRequestStatus)
-router.get('/list', getRequestedSalaries)
-router.get('/', getAllEmployeePaymentRequestStatus)
-router.post('/', requestSalary)
+router.post("/list", getRequestedSalaries);
+router.post("/:location", getLocalEmployeePaymentRequestStatus);
+router.get("/", getAllEmployeePaymentRequestStatus);
+router.post("/", requestSalary);
 
 module.exports = router;

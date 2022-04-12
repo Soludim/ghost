@@ -14,9 +14,13 @@ export default function BranchTable(props) {
 	const [employees, setEmployees] = useState([]);
 	const [em_month, setEmMonth] = useState([]);
 	const [em_year, setYear] = useState([]);
+	const [loc_id, setLocId] = useState();
 
 	const months = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
-	useEffect(() => {});
+	useEffect(() => {
+		const id = localStorage.getItem("loc_id");
+		setLocId(id);
+	}, []);
 
 	const handleSearch = async (values) => {
 		console.log(values);
@@ -25,7 +29,7 @@ export default function BranchTable(props) {
 		try {
 			const res = await axios({
 				method: "post",
-				url: "http://localhost:8080/api/request-salary/6239e27119dda0238c905d92",
+				url: `http://localhost:8080/api/request-salary/${loc_id}`,
 				headers: {
 					"Content-Type": "application/json",
 				},
@@ -146,7 +150,7 @@ export default function BranchTable(props) {
 					)}
 				</div>
 
-				<table>
+				<table className="mt-4">
 					<thead>
 						<tr>
 							<th>ID</th>
@@ -158,7 +162,7 @@ export default function BranchTable(props) {
 						</tr>
 					</thead>
 					<tbody>
-						{employees &&
+						{employees.length > 0 &&
 							employees.map((item, i) => (
 								<tr key={item._id}>
 									<td>{i + 1}</td>

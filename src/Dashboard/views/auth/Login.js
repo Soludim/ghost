@@ -37,6 +37,12 @@ function Login(props) {
 			});
 
 			console.log(res);
+
+			localStorage.setItem("loc_id", res.data?.user?.role?.location?._id);
+			localStorage.setItem("tkn", res.data?.token);
+			localStorage.setItem("user", JSON.stringify(res.data?.user));
+			navigate("/admin/branch");
+
 			// navigate("/admin/branch");
 		} catch (err) {
 			console.log(err);

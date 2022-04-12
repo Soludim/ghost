@@ -1,0 +1,3 @@
+const AuthProvider = () => {
+	// React.createContext()
+};

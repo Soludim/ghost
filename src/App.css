@@ -48,6 +48,17 @@ nav {
 	display: none;
 }
 
+.user-circle {
+	width: 65px;
+	margin: auto;
+	height: 65px;
+	font-size: 40px;
+	font-weight: 450;
+	border-radius: 50%;
+	color: var(var(--mainGrey));
+	background-color: rgb(255, 136, 0);
+}
+
 /* top Title */
 .top-title-flex {
 	display: flex;
