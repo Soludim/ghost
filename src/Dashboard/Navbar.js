@@ -5,19 +5,21 @@ import { MdNotificationsActive, MdLogout } from "react-icons/md";
 
 export default function Navbar(props) {
 	const { isDrawerOpen, func } = props;
+	const logOut = () => {
+		localStorage.removeItem("user");
+		localStorage.removeItem("tkn");
+		localStorage.removeItem("loc_id");
+		localStorage.removeItem("role");
+		window.location.assign("/");
+		console.log("logged out");
+	};
 	return (
 		<>
 			<nav>
 				<div className="d-nav-flex">
 					<ul>
 						<li>
-							{/* <img
-								className="dash-logo"
-								src={Logo}
-								alt="..."
-								style={{ width: 40, height: 50 }}
-							/> */}
-							<h4>Ghost App</h4>
+							<p className="app-name">GHOST APP</p>
 						</li>
 						<li>
 							<FaBars
@@ -36,7 +38,7 @@ export default function Navbar(props) {
 						<li>
 							<MdLogout
 								size={30}
-								onClick={() => localStorage.removeItem("dumb")}
+								onClick={() => logOut()}
 								color="var(--darkBlue)"
 							/>
 						</li>

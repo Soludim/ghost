@@ -361,11 +361,22 @@ th {
 	justify-items: center;
 }
 
+.app-name {
+	display: block;
+	color: #090946;
+	font-weight: 550;
+	font-size: 40px;
+	margin-top: 15px;
+}
+
 @media screen and (max-width: 972px) {
 	.FaBars-display {
 		display: block;
 	}
 	.dash-logo {
+		display: none;
+	}
+	.app-name {
 		display: none;
 	}
 	.main-sidebar {

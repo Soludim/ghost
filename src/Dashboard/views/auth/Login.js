@@ -39,6 +39,7 @@ function Login(props) {
 			console.log(res);
 
 			localStorage.setItem("loc_id", res.data?.user?.role?.location?._id);
+			localStorage.setItem("role", res.data?.user?.role?.role_number);
 			localStorage.setItem("tkn", res.data?.token);
 			localStorage.setItem("user", JSON.stringify(res.data?.user));
 			navigate("/admin/branch");

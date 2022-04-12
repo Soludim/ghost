@@ -17,6 +17,7 @@ const SideBarItems = [
 
 function Sidebar(props) {
 	const [user, setUser] = useState();
+	// const [role, setRole] = useState();
 
 	useEffect(() => {
 		const current_user = localStorage.getItem("user");
@@ -42,41 +43,39 @@ function Sidebar(props) {
 						{/* <p>{user && user.role}</p> */}
 						<div className="divider" />
 					</div>
-					{user?.role?.role_number === 1
-						? SideBarItems.map((item) => {
-								return (
-									<div key={item.name}>
-										<NavLink
-											to={`${item.href}`}
-											className={(navData) =>
-												navData.isActive ? "active-sidebar" : ""
-											}
-										>
-											<div className="dash-nav">
-												<li className="icon">{item.icon}</li>
-												<li className="dash-name">{item.name}</li>
-											</div>
-										</NavLink>
-									</div>
-								);
-						  })
-						: SideBarItems[0]((item) => {
-								return (
-									<div key={item.name}>
-										<NavLink
-											to={`${item.href}`}
-											className={(navData) =>
-												navData.isActive ? "active-sidebar" : ""
-											}
-										>
-											<div className="dash-nav">
-												<li className="icon">{item.icon}</li>
-												<li className="dash-name">{item.name}</li>
-											</div>
-										</NavLink>
-									</div>
-								);
-						  })}
+					{user?.role?.role_number === 1 ? (
+						SideBarItems.map((item) => {
+							return (
+								<div key={item.name}>
+									<NavLink
+										to={`${item.href}`}
+										className={(navData) =>
+											navData.isActive ? "active-sidebar" : ""
+										}
+									>
+										<div className="dash-nav">
+											<li className="icon">{item.icon}</li>
+											<li className="dash-name">{item.name}</li>
+										</div>
+									</NavLink>
+								</div>
+							);
+						})
+					) : (
+						<div key={SideBarItems[0].name}>
+							<NavLink
+								to={`${SideBarItems[0].href}`}
+								className={(navData) =>
+									navData.isActive ? "active-sidebar" : ""
+								}
+							>
+								<div className="dash-nav">
+									<li className="icon">{SideBarItems[0].icon}</li>
+									<li className="dash-name">{SideBarItems[0].name}</li>
+								</div>
+							</NavLink>
+						</div>
+					)}
 				</div>
 				<div className="sidebar-bottom">
 					<MdSettings size={50} color={"var(--mainWhite)"} />

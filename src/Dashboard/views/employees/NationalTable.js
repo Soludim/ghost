@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { FaCheckDouble } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
 import { Button } from "react-bootstrap";
 import axios from "axios";
 import { useAlert } from "react-alert";
@@ -10,16 +9,28 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 
 export default function NationalTable(props) {
 	const alert = useAlert();
-	const navigate = useNavigate();
 	const [employees, setEmployees] = useState([]);
 	const [em_month, setEmMonth] = useState([]);
 	const [em_year, setYear] = useState([]);
-	const [loc_id, setLocId] = useState();
+	const [token, setToken] = useState();
 
-	const months = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+	const months = [
+		{ key: "January" },
+		{ key: "February" },
+		{ key: "March" },
+		{ key: "April" },
+		{ key: "May" },
+		{ key: "June" },
+		{ key: "July" },
+		{ key: "August" },
+		{ key: "September" },
+		{ key: "October" },
+		{ key: "November" },
+		{ key: "December" },
+	];
 	useEffect(() => {
-		const id = localStorage.getItem("loc_id");
-		setLocId(id);
+		const token = localStorage.getItem("tkn");
+		setToken(token);
 	}, []);
 
 	const handleSearch = async (values) => {
@@ -42,31 +53,24 @@ export default function NationalTable(props) {
 	};
 
 	const paySalary = async (id) => {
-		console.log(em_month, em_year);
-		const data = {
-			employee: id,
-			month: em_month,
-			year: em_year,
-			status: 1,
-		};
 		try {
 			const res = await axios({
 				method: "post",
-				url: "http://localhost:8080/api/request-salary",
+				url: `http://localhost:8080/api/request-salary/pay/${id}?token=${token}`,
 				headers: {
 					"Content-Type": "application/json",
 				},
-				data: data,
 			});
 			const curr_emp = employees;
+			console.log(res.data, employees);
 			curr_emp.forEach((el) => {
-				if (el.emp_id === res.data?.request?.employee) {
-					el.status = res.data.request?.status;
+				if (el.employee._id === res.data?.rs?.employee) {
+					el.status = res.data.rs?.status;
 				}
 			});
 
-			alert.show("Request Sent");
 			setEmployees([...curr_emp]);
+			alert.show("Salary Paid");
 		} catch (err) {
 			console.log(err);
 		}
@@ -103,9 +107,9 @@ export default function NationalTable(props) {
 									name="month"
 								>
 									<option> Select Month</option>
-									{months.map((item) => (
-										<option key={item} value={item}>
-											{item}
+									{months.map((item, i) => (
+										<option key={i} value={i + 1}>
+											{item.key}
 										</option>
 									))}
 								</Field>
@@ -137,6 +141,16 @@ export default function NationalTable(props) {
 						</div>
 					</Form>
 				</Formik>
+				<div>
+					{employees.length > 0 ? (
+						<h3 className="text-center text-success">
+							Request Month <span>{em_month}</span> and Year{" "}
+							<span>{em_year}</span>{" "}
+						</h3>
+					) : (
+						""
+					)}
+				</div>
 				<table className="mt-4">
 					<thead>
 						<tr>
@@ -151,12 +165,12 @@ export default function NationalTable(props) {
 					<tbody>
 						{employees.length > 0 &&
 							employees.map((item, i) => (
-								<tr key={item.id}>
-									<td>{item.id}</td>
-									<td>{item.firstName}</td>
-									<td>{item.lastName}</td>
-									<td>{item.location}</td>
-									<td>{item.salary}</td>
+								<tr key={item.employee?._id}>
+									<td>{i + 1}</td>
+									<td>{item.employee?.firstName}</td>
+									<td>{item.employee?.lastName}</td>
+									<td>{item.employee?.location?.name}</td>
+									<td>{item.employee?.salary}</td>
 
 									<td className="text-center">
 										{item.status === 1 ? (
@@ -164,7 +178,7 @@ export default function NationalTable(props) {
 										) : (
 											<Button
 												variant="success"
-												onClick={() => paySalary(item.employee)}
+												onClick={() => paySalary(item._id)}
 											>
 												Pay Salary
 											</Button>

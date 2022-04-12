@@ -16,7 +16,20 @@ export default function BranchTable(props) {
 	const [em_year, setYear] = useState([]);
 	const [loc_id, setLocId] = useState();
 
-	const months = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+	const months = [
+		{ key: "January" },
+		{ key: "February" },
+		{ key: "March" },
+		{ key: "April" },
+		{ key: "May" },
+		{ key: "June" },
+		{ key: "July" },
+		{ key: "August" },
+		{ key: "September" },
+		{ key: "October" },
+		{ key: "November" },
+		{ key: "December" },
+	];
 	useEffect(() => {
 		const id = localStorage.getItem("loc_id");
 		setLocId(id);
@@ -104,9 +117,9 @@ export default function BranchTable(props) {
 									name="month"
 								>
 									<option> Select Month</option>
-									{months.map((item) => (
-										<option key={item} value={item}>
-											{item}
+									{months.map((item, i) => (
+										<option key={i} value={i + 1}>
+											{item.key}
 										</option>
 									))}
 								</Field>
@@ -142,7 +155,7 @@ export default function BranchTable(props) {
 				<div>
 					{employees.length > 0 ? (
 						<h3 className="text-center text-success">
-							Request month <span>{em_month}</span> and year{" "}
+							Request Month <span>{em_month}</span> and Year{" "}
 							<span>{em_year}</span>{" "}
 						</h3>
 					) : (
