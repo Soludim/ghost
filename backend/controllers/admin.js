@@ -15,14 +15,14 @@ exports.adminLogin = (req, res) => {
             }
             fetchedAdmin = admin;
 
-            let token = genToken(res, fetchedAdmin._id, fetchedAdmin.username, fetchedAdmin.email);
+            let token = genToken(res, fetchedAdmin._id, fetchedAdmin.username,
+                fetchedAdmin.email, fetchedAdmin.role.role_number);
             return res.status(200).json({
                 message: "Login was successful",
                 user: fetchedAdmin,
                 token
             })
         }).catch(error => {
-            console.log(error)
             res.status(500).json({ message: 'Authentication Failed' })
         })
 

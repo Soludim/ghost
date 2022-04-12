@@ -48,6 +48,35 @@ async function rejectEmployeeSalaryRequest(rs) {
 	return !employeeExistInNational;
 }
 
+exports.paySalary = (req, res) => {
+	if (req.user.role_number !== 1)
+		return res.status(403).json('Unauthorized');
+
+	requestedSalary.findById(req.params.id).then(rs => {
+		if (!rs) {
+			return res.status(404).json({ message: "Entity dont exist" });
+		}
+
+		rs.status = 1; //paid
+
+		rs.save()
+			.then(result => {
+				res.status(201).json({
+					rs: result,
+					message: "Salary paid succesfully!"
+				})
+			}).catch(error => {
+				if (error.name == 'ValidationError')
+					return res.status(400).json({ message: error.message })
+
+				if (error.kind === "ObjectId")
+					return res.status(404).json({ message: "Invalid param id" });
+
+				res.status(500).json({ message: error.message })
+			});
+	});
+};
+
 exports.getRequestedSalaries = (req, res) => {
 	if (req.body.month === undefined || req.body.month === null) {
 		return res.status(401).json({ message: "Month is required" })
@@ -57,6 +86,7 @@ exports.getRequestedSalaries = (req, res) => {
 	}
 
 	requestedSalary.find({ month: req.body.month, year: req.body.year })
+		.populate({ path: 'employee', populate: "location" })
 		.then(rs => {
 			if (rs) {
 				res.status(200).json(rs);
