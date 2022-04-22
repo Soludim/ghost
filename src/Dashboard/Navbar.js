@@ -1,7 +1,6 @@
 import React from "react";
 import { FaBars } from "react-icons/fa";
-import { MdNotificationsActive, MdLogout } from "react-icons/md";
-// import Logo from "./logo192.png";
+import { MdLogout } from "react-icons/md";
 
 export default function Navbar(props) {
 	const { isDrawerOpen, func } = props;
@@ -11,7 +10,6 @@ export default function Navbar(props) {
 		localStorage.removeItem("loc_id");
 		localStorage.removeItem("role");
 		window.location.assign("/");
-		console.log("logged out");
 	};
 	return (
 		<>
@@ -32,9 +30,6 @@ export default function Navbar(props) {
 						</li>
 					</ul>
 					<ul className="d-nav-inline-flex">
-						<li>
-							<MdNotificationsActive size={30} color="var(--darkBlue)" />
-						</li>
 						<li>
 							<MdLogout
 								size={30}

@@ -17,7 +17,7 @@ export default function MainRoutes(props) {
 					<Route path="/admin" element={<DashLayout />}>
 						<Route path="branch" element={<BranchTable />} />
 
-						<Route path="national" element={<NationalTable />} />
+						<Route path="requested-salary" element={<NationalTable />} />
 					</Route>
 					<Route path="*" element={<Notfound />} />
 				</Route>

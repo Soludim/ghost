@@ -9,6 +9,7 @@ import { renderError } from "../../utils/Utils";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 
 export default function BranchTable(props) {
+	const [user, setUser] = useState();
 	const alert = useAlert();
 	const navigate = useNavigate();
 	const [employees, setEmployees] = useState([]);
@@ -31,6 +32,8 @@ export default function BranchTable(props) {
 		{ key: "December" },
 	];
 	useEffect(() => {
+		const current_user = localStorage.getItem("user");
+		setUser(JSON.parse(current_user));
 		const id = localStorage.getItem("loc_id");
 		setLocId(id);
 	}, []);
@@ -98,6 +101,7 @@ export default function BranchTable(props) {
 	return (
 		<>
 			<div className="table-container">
+				<h3>{user && user.role.location.name} Branch</h3>
 				<Formik
 					enableReinitialize={true}
 					initialValues={initialValues}
@@ -134,7 +138,6 @@ export default function BranchTable(props) {
 									name="year"
 								>
 									<option> Select Year</option>
-									<option value={2023}> 2023</option>
 									<option value={2022}> 2022</option>
 									<option value={2021}> 2021</option>
 									<option value={2020}> 2020</option>
@@ -204,7 +207,7 @@ export default function BranchTable(props) {
 												pending
 											</Button>
 										) : item.status === -1 ? (
-											<Button variant="danger">Rejected</Button>
+											<Button variant="danger" disabled>Rejected</Button>
 										) : (
 											<FaCheckDouble size={25} />
 										)}

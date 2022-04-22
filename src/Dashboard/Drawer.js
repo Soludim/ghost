@@ -8,7 +8,7 @@ const SideBarItems = [
 		icon: <FaSignal size={20} color="var(--mainWhite)" />,
 	},
 	{
-		name: "National",
+		name: "Requested Salary",
 		href: "national",
 		icon: <FaHome size={20} color="var(--mainWhite)" />,
 	},

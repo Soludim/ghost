@@ -1,16 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { FaSignal, FaHome } from "react-icons/fa";
-import { MdSettings } from "react-icons/md";
 const SideBarItems = [
 	{
-		name: "Branch",
+		name: "Request Salary",
 		href: "/admin/branch",
 		icon: <FaSignal size={20} color="var(--mainWhite)" />,
 	},
 	{
-		name: "National",
-		href: "/admin/national",
+		name: "Requested Salary",
+		href: "/admin/requested-salary",
 		icon: <FaHome size={20} color="var(--mainWhite)" />,
 	},
 ];
@@ -23,7 +22,6 @@ function Sidebar(props) {
 		const current_user = localStorage.getItem("user");
 		setUser(JSON.parse(current_user));
 	}, []);
-	console.log(user);
 	return (
 		<>
 			<div className="main-sidebar">
@@ -76,9 +74,6 @@ function Sidebar(props) {
 							</NavLink>
 						</div>
 					)}
-				</div>
-				<div className="sidebar-bottom">
-					<MdSettings size={50} color={"var(--mainWhite)"} />
 				</div>
 			</div>
 		</>

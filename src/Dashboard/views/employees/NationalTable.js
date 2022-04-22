@@ -124,7 +124,6 @@ export default function NationalTable(props) {
 									name="year"
 								>
 									<option> Select Year</option>
-									<option value={2023}> 2023</option>
 									<option value={2022}> 2022</option>
 									<option value={2021}> 2021</option>
 									<option value={2020}> 2020</option>
@@ -174,15 +173,18 @@ export default function NationalTable(props) {
 
 									<td className="text-center">
 										{item.status === 1 ? (
-											<Button variant="danger">Paid</Button>
-										) : (
-											<Button
-												variant="success"
-												onClick={() => paySalary(item._id)}
-											>
-												Pay Salary
-											</Button>
-										)}
+											<Button disabled variant="success">Paid</Button>
+										) :
+											item.status === -1 ?
+												<Button disabled variant="danger">Rejected</Button>
+												: (
+													<Button
+														variant="success"
+														onClick={() => paySalary(item._id)}
+													>
+														Pay Salary
+													</Button>
+												)}
 									</td>
 								</tr>
 							))}
